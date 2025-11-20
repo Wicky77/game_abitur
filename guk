@@ -11,6 +11,7 @@
             box-sizing: border-box;
         }
 
+
         /* Кнопка вопроса в левом верхнем углу */
         .help-button {
             position: fixed;
