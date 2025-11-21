@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Студенческий портал УрФУ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c2c4a, #1a4a7c, #2b6da3);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 4px solid #fff;
+        }
+        
+        .logo i {
+            font-size: 50px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1a4a7c;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-button:hover, .nav-button.active {
+            background: linear-gradient(to right, #1a4a7c, #2b6da3);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #1a4a7c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a4a7c;
+        }
+        
+        .chats-grid, .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .chat-card, .event-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chat-card:hover, .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(to right, #1a4a7c, #2b6da3);
+            color: white;
+        }
+        
+        .card-header h2 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-body p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f0f5ff;
+            color: #1a4a7c;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .card-link:hover {
+            background: #d9e6ff;
+        }
+        
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1a4a7c;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .chats-grid, .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+            </div>
+            <h1>Студенческий портал УрФУ</h1>
+            <p>Общение, мероприятия и новости для студентов</p>
+        </div>
+        
+        <div class="nav">
+            <button class="nav-button active" data-target="chats">Чаты и сообщества</button>
+            <button class="nav-button" data-target="events">Мероприятия</button>
+            <button class="nav-button" data-target="news">Новости</button>
+        </div>
+        
+        <div id="chats" class="content-section active">
+            <h2 class="section-title">Студенческие чаты и сообщества</h2>
+            
+            <div class="chats-grid">
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>Общий чат УрФУ</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Основной чат для всех студентов университета. Здесь обсуждаем учебу, студенческую жизнь и помогаем друг другу.</p>
+                        <div class="card-meta">
+                            <span>Участников: 2450</span>
+                            <span>Активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+                
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>ИТИС: Программисты</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Чат для студентов IT-направлений. Обсуждаем программирование, проекты и помогаем с кодом.</p>
+                        <div class="card-meta">
+                            <span>Участников: 870</span>
+                            <span>Очень активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+                
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>Общежития УрФУ</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Чат для жителей общежитий УрФУ. Решаем бытовые вопросы, организуем мероприятия и общаемся.</p>
+                        <div class="card-meta">
+                            <span>Участников: 1250</span>
+                            <span>Активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+                
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>Спортивное сообщество</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Для тех, кто любит спорт. Организуем тренировки, матчи и обсуждаем спортивные события.</p>
+                        <div class="card-meta">
+                            <span>Участников: 630</span>
+                            <span>Активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+                
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>Иностранные студенты</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>International students community. Help with adaptation, language practice and cultural exchange.</p>
+                        <div class="card-meta">
+                            <span>Участников: 420</span>
+                            <span>Активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+                
+                <div class="chat-card">
+                    <div class="card-header">
+                        <h2>Абитуриенты 2025</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Чат для будущих студентов УрФУ. Задавайте вопросы о поступлении, получайте консультации.</p>
+                        <div class="card-meta">
+                            <span>Участников: 980</span>
+                            <span>Очень активно</span>
+                        </div>
+                        <a href="#" class="card-link">Присоединиться к чату</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="events" class="content-section">
+            <h2 class="section-title">Ближайшие мероприятия</h2>
+            
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>День первокурсника</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>15 сентября 2025, 16:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Главный корпус, актовый зал</span>
+                        </div>
+                        <p>Торжественное мероприятие для новых студентов. Знакомство с университетом, выступления ректората и творческих коллективов.</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Хакатон UrFU Code Challenge</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>22-23 сентября 2025, 10:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>ИТИС, ауд. 301</span>
+                        </div>
+                        <p>Соревнование по программированию для студентов всех курсов. Призы от партнеров, пицца и много кодинга!</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Научная конференция</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>5 октября 2025, 14:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Библиотека, конференц-зал</span>
+                        </div>
+                        <p>Ежегодная конференция студенческих научных работ. Возможность представить свои исследования и получить feedback.</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Спортивный турнир</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>8 октября 2025, 11:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Спортивный комплекс УрФУ</span>
+                        </div>
+                        <p>Соревнования между факультетами по волейболу, баскетболу и настольному теннису. Поддержи свою команду!</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Карьерный день</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>12 октября 2025, 13:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Главный корпус, холл 2 этажа</span>
+                        </div>
+                        <p>Встреча с потенциальными работодателями. Мастер-классы по составлению резюме и подготовке к собеседованию.</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Культурный вечер</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>20 октября 2025, 18:00</span>
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Студенческий дворец культуры</span>
+                        </div>
+                        <p>Вечер межкультурного общения. Выступления творческих коллективов, национальная кухня и многое другое.</p>
+                        <a href="#" class="card-link">Зарегистрироваться</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="news" class="content-section">
+            <h2 class="section-title">Последние новости</h2>
+            
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Новые стипендии для студентов</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>4 сентября 2025</span>
+                        </div>
+                        <p>УрФУ объявляет о новых стипендиальных программах для студентов IT-направлений. Подача заявок до 20 сентября.</p>
+                        <a href="#" class="card-link">Читать подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Открытие нового корпуса</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>1 сентября 2025</span>
+                        </div>
+                        <p>Состоялось торжественное открытие нового современного корпуса для естественнонаучных направлений.</p>
+                        <a href="#" class="card-link">Читать подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>УрФУ в мировом рейтинге</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>29 августа 2025</span>
+                        </div>
+                        <p>Уральский федеральный университет улучшил свои позиции в международном рейтинге QS World University Rankings.</p>
+                        <a href="#" class="card-link">Читать подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="card-header">
+                        <h2>Старт занятий в новом семестре</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>25 августа 2025</span>
+                        </div>
+                        <p>Учебный процесс в осеннем семестре начнется 1 сентября. Расписание уже доступно в личных кабинетах.</p>
+                        <a href="#" class="card-link">Читать подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Уральский федеральный университет. Все права защищены.</p>
+        </div>
+    </div>
+
+    <script>
+        // Переключение между разделами
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Убираем активный класс у всех кнопок
+                document.querySelectorAll('.nav-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Добавляем активный класс текущей кнопке
+                this.classList.add('active');
+                
+                // Скрываем все разделы
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Показываем нужный раздел
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Имитация функционала чатов
+        document.querySelectorAll('.card-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const card = this.closest('.chat-card, .event-card');
+                const title = card.querySelector('h2').textContent;
+                
+                if (this.textContent.includes('Присоединиться')) {
+                    alert(`Вы присоединились к чату: ${title}`);
+                } else if (this.textContent.includes('Зарегистрироваться')) {
+                    alert(`Вы зарегистрировались на мероприятие: ${title}`);
+                } else {
+                    alert(`Переход к новости: ${title}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
