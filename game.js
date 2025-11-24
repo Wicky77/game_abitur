@@ -13,6 +13,7 @@ function startGame() {
     }
 }
 
+
 function stopGame() {
     gameRunning = false;
 }
